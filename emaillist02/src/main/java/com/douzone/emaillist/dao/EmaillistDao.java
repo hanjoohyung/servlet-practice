@@ -1,4 +1,4 @@
-package guestbook01.dao;
+package com.douzone.emaillist.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,13 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import com.douzone.emaillist.vo.EmaillistVo;
 
-import guestbook01.vo.GuestbookVo;
-
-public class GuestbookDao {
-
-	public List<GuestbookVo> findAll() {
-		List<GuestbookVo> result = new ArrayList<>();
+public class EmaillistDao {
+	public List<EmaillistVo> findAll() {
+		List<EmaillistVo> result = new ArrayList<>();
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -23,7 +21,7 @@ public class GuestbookDao {
 			conn = getConnection();
 
 			// 3. SQL 준비
-			String sql = "select *" + "  	from guestbook" + "      order by no asc";
+			String sql = "   select no, first_name, last_name, email" + "     from emaillist" + " order by no desc";
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩(binding)
@@ -33,25 +31,21 @@ public class GuestbookDao {
 
 			while (rs.next()) {
 				Long no = rs.getLong(1);
-				String name = rs.getString(2);
-				String password = rs.getString(3);
-				String message = rs.getString(4);
-				String reg_date = rs.getString(5);
-				// System.out.println("테스트 " + reg_date);
+				String firstName = rs.getString(2);
+				String lastName = rs.getString(3);
+				String authorNamemail = rs.getString(4);
 
-				GuestbookVo vo = new GuestbookVo();
+				EmaillistVo vo = new EmaillistVo();
 				vo.setNo(no);
-				vo.setName(name);
-				vo.setPassword(password);
-				vo.setMessage(message);
-				vo.setReg_date(reg_date);
+				vo.setFirstName(firstName);
+				vo.setLastName(lastName);
+				vo.setEmail(authorNamemail);
 
 				result.add(vo);
 			}
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
-			e.printStackTrace();
 		} finally {
 			// clean up
 			try {
@@ -72,7 +66,7 @@ public class GuestbookDao {
 		return result;
 	}
 
-	public boolean insert(GuestbookVo vo) {
+	public boolean insert(EmaillistVo vo) {
 		boolean result = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -81,14 +75,13 @@ public class GuestbookDao {
 			conn = getConnection();
 
 			// 3. SQL 준비
-			String sql = "insert " + "into guestbook " + "values(null, ?, ?, ?, now())";
+			String sql = " insert" + "   into emaillist" + " values (null, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩(binding)
-
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getMessage());
+			pstmt.setString(1, vo.getFirstName());
+			pstmt.setString(2, vo.getLastName());
+			pstmt.setString(3, vo.getEmail());
 
 			// 5. SQL 실행
 			int count = pstmt.executeUpdate();
@@ -127,51 +120,5 @@ public class GuestbookDao {
 		}
 
 		return conn;
-	}
-
-	public boolean delete(GuestbookVo vo) {
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			// 1. JDBC Driver 로딩
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			// 2. 연결하기
-			String url = "jdbc:mysql://127.0.0.1:3306/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-
-			// 3. SQL 준비
-			String sql = "delete from guestbook where no=? and password=?";
-			pstmt = conn.prepareStatement(sql);
-
-			// 4. binding
-			pstmt.setLong(1, vo.getNo());
-			pstmt.setString(2, vo.getPassword());
-
-			// 5. SQL 실행
-			int count = pstmt.executeUpdate();
-
-			result = count == 1;
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			// clean up
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return result;
 	}
 }
