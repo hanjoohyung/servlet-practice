@@ -1,6 +1,5 @@
 package guestbook01.vo;
 
-import java.sql.Time;
 import java.time.LocalDate;
 
 public class GuestbookVo {
