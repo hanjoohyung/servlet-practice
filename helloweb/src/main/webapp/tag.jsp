@@ -38,7 +38,7 @@
 	<img src='assets/images/dokgo.png' style="width:150px; border:1px solid #999"/>
 	<br/>
 	<a href="form.jsp">폼으로 가기</a>
-	<a href="/helloweb/hello.jsp">hello</a>
+	<a href="/helloweb/hello.jsp?name=한주형&email=ghd1672naver.com">hello</a>
 	<p>
 	10월 07, 2021 3:10:14 오후 org.apache.catalina.core.StandardEngine startInternal
 	정보: 서버 엔진을 시작합니다: [Apache Tomcat/8.5.71]</br>
