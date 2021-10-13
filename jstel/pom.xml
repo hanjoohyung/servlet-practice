@@ -9,10 +9,17 @@
 	</parent>
 	<artifactId>jstel</artifactId>
 	<packaging>war</packaging>
-	
-	<dependencies>	
-	</dependencies>	
-	
+
+	<dependencies>
+		<!-- jstl -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+	</dependencies>
+
 	<build>
 		<finalName>jstel</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -34,7 +41,7 @@
 					<username>admin</username>
 					<password>manager</password>
 				</configuration>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 </project>
