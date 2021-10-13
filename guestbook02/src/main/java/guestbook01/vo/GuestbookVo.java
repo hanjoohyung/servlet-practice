@@ -46,7 +46,6 @@ public class GuestbookVo {
 	}
 
 	public void setReg_date(String reg_date) {
-		LocalDate now = LocalDate.now();
 		this.reg_date = reg_date;
 	}
 

@@ -40,7 +40,7 @@ public class GuestbookController extends HttpServlet {
 			vo.setPassword(password);
 			vo.setMessage(message);
 			vo.setReg_date(reg_date);
-
+			
 			new GuestbookDao().insert(vo);
 
 			response.sendRedirect("/guestbook02/db");
